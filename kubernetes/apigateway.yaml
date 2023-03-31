@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: apigateway
+  labels:
+    app: apigateway
+spec:
+  type: LoadBalancer    #NodePort   #
+  selector:
+    app: apigateway
+  ports:
+    - protocol: "TCP"
+      port: 8080
+      targetPort: 8080
+      name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apigateway # name of micro-service
+spec:
+  selector:
+    matchLabels:
+      app: apigateway
+  replicas: 1         # how many pods you run
+  template:
+    metadata:
+      labels:
+        app: apigateway
+    spec:
+      containers:
+        - name: apigateway
+          image: apigateway
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+        #   initContainers:
+      #  - name: gateway-service

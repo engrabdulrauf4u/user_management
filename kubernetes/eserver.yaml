@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: e-server
+  labels:
+    app: e-server
+spec:
+  type: NodePort    #NodePort   #
+  selector:
+    app: e-server
+  ports:
+    - protocol: "TCP"
+      port: 8761
+      targetPort: 8761
+      name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: e-server # name of micro-service
+spec:
+  selector:
+    matchLabels:
+      app: e-server
+  replicas: 1         # how many pods you run
+  template:
+    metadata:
+      labels:
+        app: e-server
+    spec:
+      containers:
+        - name: e-server
+          image: e-server
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8761
+        #   initContainers:
+      #  - name: gateway-service

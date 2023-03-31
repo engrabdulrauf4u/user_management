@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: user-service
+  labels:
+    app: user-service
+spec:
+  type: NodePort    #NodePort   #
+  selector:
+    app: user-service
+  ports:
+    - protocol: "TCP"
+      port: 9001
+      targetPort: 9001
+      name: http
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-service # name of micro-service
+spec:
+  selector:
+    matchLabels:
+      app: user-service
+  replicas: 1         # how many pods you run
+  template:
+    metadata:
+      labels:
+        app: user-service
+    spec:
+      containers:
+        - name: user-service
+          image: user-service
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+        #   initContainers:
+      #  - name: gateway-service

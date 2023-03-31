@@ -5,6 +5,7 @@ import com.user.entity.User;
 import com.user.servie.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -33,6 +34,7 @@ public class UserController {
     RestTemplate restTemplate = null;
 
     @GetMapping("/{userId}")
+    @LoadBalanced
     public User getUser(@PathVariable("userId") Long userId){
 
         User user = this.userService.getUser(userId);

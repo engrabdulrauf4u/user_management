@@ -3,6 +3,27 @@ spring:
     name: apigateway
   profile:
     active: docker
+  cloud:
+    gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedHeaders: "*"
+            allowedMethods: "*"
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
+        - id: contact-service
+          uri: lb://contact-service
+          predicates:
+            - Path=/contact/**
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+    discovery:
+      enabled: true
 
 server:
   port: 8080
