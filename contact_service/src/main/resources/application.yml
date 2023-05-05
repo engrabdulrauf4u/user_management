@@ -8,6 +8,8 @@ server:
   port: 9002
 
 eureka:
+  instance:
+    preferIpAddress: true
   client:
     serviceUrl:
       defaultZone: http://e-server:8761/eureka/

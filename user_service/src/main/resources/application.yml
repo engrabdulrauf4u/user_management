@@ -6,6 +6,8 @@ server:
   port: 9001
 
 eureka:
+  instance:
+    preferIpAddress: true
   client:
     service-url:
       defaultZone: http://e-server:8761/eureka/
